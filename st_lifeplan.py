@@ -43,11 +43,11 @@ children_ages = []
 children_info = []
 
 school_options = {
-    "kindergarten": ["public", "private"],
-    "elementary": ["public", "private"],
-    "junior_high": ["public", "private"],
-    "high_school": ["public", "private"],
-    "university": ["public", "private文系", "private理系"]
+    "kindergarten": ["公立", "私立"],
+    "elementary": ["公立", "私立"],
+    "junior_high": ["公立", "私立"],
+    "high_school": ["公立", "私立"],
+    "university": ["公立", "私立文系", "私立理系"]
 }
 
 label_map = {
@@ -82,8 +82,13 @@ if has_children == "はい":
         })
 
 # オプション：確認表示
-st.write("入力内容（確認用）:")
-st.json(children_info)
+# st.markdown("### 入力内容（確認用）")
+# for i, child in enumerate(children_info):
+    # st.markdown(f"**{i+1}人目のお子様**")
+    # st.markdown(f"- 年齢: {child['age']}歳")
+    # for stage, value in child["school_type"].items():
+        # label = label_map[stage]
+        # st.markdown(f"  - {label}: {value}")
 
 st.subheader("家計情報")
 base_expense = st.number_input("生活費（除く住宅関係費・教育費）", min_value=0, max_value=500, value=400)
@@ -110,7 +115,13 @@ if st.session_state.confirmed:
     st.write(f"住宅関係費: {house_expense} 百万円")
     st.write(f"預貯金: {savings_initial} 百万円") # 初期貯蓄を表示
     st.write(f"投資残高: {investment} 百万円")
-    st.write("選択された就学区分：", children_info)
+
+    for i, child in enumerate(children_info):
+        st.markdown(f"**{i+1}人目のお子様**")
+        st.markdown(f"- 年齢: {child['age']}歳")
+        for stage, value in child["school_type"].items():
+            label = label_map[stage]
+            st.markdown(f"  - {label}: {value}")
 
 # ----------------------------
 # 選択肢の表示（ボタンを押したあとだけ表示）
@@ -130,12 +141,12 @@ if st.session_state.confirmed:
 
         # 教育費テーブル
         education_costs = {
-            "kindergarten": {"public": 18, "private": 35},
-            "elementary": {"public": 34, "private": 183},
-            "junior_high": {"public": 54, "private": 156},
-            "high_school": {"public": 60, "private": 103},
-            "university_1": {"private文系": 120, "private理系": 170, "public": 82},
-            "university_2_4": {"private文系": 95, "private理系": 145, "public": 54}
+            "kindergarten": {"公立": 18, "私立": 35},
+            "elementary": {"公立": 34, "私立": 183},
+            "junior_high": {"公立": 54, "私立": 156},
+            "high_school": {"公立": 60, "私立": 103},
+            "university_1": {"私立文系": 120, "私立理系": 170, "公立": 82},
+            "university_2_4": {"私立文系": 95, "私立理系": 145, "公立": 54}
         }
 
         # 就学年齢と学校段階の対応（年齢に応じてステージを返す関数）
